@@ -23,7 +23,7 @@ async function startup (): Promise<void> {
     return { count }
   })
 
-  await server.listen({ port: 3000, host: '0.0.0.0' })
+  await server.listen({ port: 3333, host: '0.0.0.0' })
 }
 
 startup()
