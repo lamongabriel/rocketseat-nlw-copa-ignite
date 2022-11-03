@@ -16,6 +16,12 @@ module.exports = {
       backgroundImage: {
         'bg-stripes': "url('/app-bg.png')"
       }
+    },
+    screens: {
+      smallPhone: { max: '420px' },
+      phone: { max: '540px' },
+      tablet: { max: '950px' },
+      desktopSmall: { max: '1140px' }
     }
   },
   plugins: []
