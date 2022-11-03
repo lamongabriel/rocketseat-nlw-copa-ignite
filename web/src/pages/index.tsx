@@ -132,7 +132,8 @@ export default function Home ({ poolCount, guessCount, userCount }: HomeProps) {
             position: 'relative',
             border: 'solid 1px #323238',
             inset: 0,
-            borderRadius: '4px'
+            borderRadius: '4px',
+            margin: '0 15px'
           }
         }}
       >
