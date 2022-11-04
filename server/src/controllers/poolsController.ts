@@ -52,3 +52,93 @@ export async function CreateNewPool (request: FastifyRequest, reply: FastifyRepl
     }
   }
 }
+
+export async function JoinNewPool (request: FastifyRequest, reply: FastifyReply) {
+  const joinPoolBody = z.object({
+    code: z.string().length(6)
+  })
+
+  const { code } = joinPoolBody.parse(request.body)
+
+  const poolToJoin = await prisma.pool.findUnique({
+    where: {
+      code
+    },
+    include: {
+      participants: {
+        where: {
+          userId: request.user.sub
+        }
+      }
+    }
+  })
+
+  if (!poolToJoin) {
+    return await reply.status(400).send({
+      message: 'Pool not found'
+    })
+  }
+
+  if (poolToJoin.participants.length > 0) {
+    return await reply.status(400).send({
+      message: 'You already joined this pool.'
+    })
+  }
+
+  if (!poolToJoin.ownerId) {
+    await prisma.pool.update({
+      where: {
+        id: poolToJoin.id
+      },
+      data: {
+        ownerId: request.user.sub
+      }
+    })
+  }
+
+  prisma.participant.create({
+    data: {
+      poolId: poolToJoin.id,
+      userId: request.user.sub
+    }
+  })
+
+  return await reply.status(201).send()
+}
+
+export async function ListJoinedPools (request: FastifyRequest, reply: FastifyReply) {
+  const pools = await prisma.pool.findMany({
+    where: {
+      participants: {
+        some: {
+          userId: request.user.sub
+        }
+      }
+    },
+    include: {
+      _count: {
+        select: {
+          participants: true
+        }
+      },
+      participants: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              avatarUrl: true
+            }
+          }
+        },
+        take: 4
+      },
+      owner: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    }
+  })
+  return { pools }
+}

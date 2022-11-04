@@ -4,10 +4,12 @@ import { prisma } from '../lib/prisma'
 import { authenticate } from '../plugins/authenticate'
 
 async function routes (fastify: FastifyInstance) {
+  // [GET] - Return user info
   fastify.get('/me', { onRequest: [authenticate] }, async (request) => {
     return { user: request.user }
   })
 
+  // [POST] - Authenticates user via google OAuth2 token
   fastify.post('/users', async (request, reply) => {
     try {
       const createUserBody = z.object({
