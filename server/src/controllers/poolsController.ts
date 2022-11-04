@@ -142,3 +142,77 @@ export async function ListJoinedPools (request: FastifyRequest, reply: FastifyRe
   })
   return { pools }
 }
+
+export async function ListPoolInfo (request: FastifyRequest, reply: FastifyReply) {
+  const getPoolParams = z.object({
+    id: z.string()
+  })
+
+  const { id } = getPoolParams.parse(request.params)
+
+  const pool = await prisma.pool.findUnique({
+    where: {
+      id
+    },
+    include: {
+      _count: {
+        select: {
+          participants: true
+        }
+      },
+      participants: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              avatarUrl: true
+            }
+          }
+        },
+        take: 4
+      },
+      owner: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    }
+  })
+
+  return { pool }
+}
+
+export async function ListMatches (request: FastifyRequest, reply: FastifyReply) {
+  const getPoolParams = z.object({
+    id: z.string()
+  })
+
+  const { id } = getPoolParams.parse(request.params)
+
+  const matches = await prisma.match.findMany({
+    orderBy: {
+      date: 'desc'
+    },
+    include: {
+      guesses: {
+        where: {
+          participant: {
+            userId: request.user.sub,
+            poolId: id
+          }
+        }
+      }
+    }
+  })
+
+  return {
+    matches: matches.map(match => {
+      return {
+        ...match,
+        guess: match.guesses.length > 0 ? match.guesses[0] : null,
+        guesses: undefined
+      }
+    })
+  }
+}

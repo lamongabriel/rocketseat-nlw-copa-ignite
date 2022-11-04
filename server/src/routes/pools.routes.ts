@@ -10,6 +10,12 @@ async function routes (fastify: FastifyInstance) {
   // [GET] - List all pools of the user
   fastify.get('/pools', { onRequest: [authenticate] }, poolsController.ListJoinedPools)
 
+  // [GET] - List a specific pool information
+  fastify.get('/pools/:id', { onRequest: [authenticate] }, poolsController.ListPoolInfo)
+
+  // [GET] - List a specific pool matches list
+  fastify.get('/pools/:id/matches', { onRequest: [authenticate] }, poolsController.ListMatches)
+
   // [POST] - Creates a new pool to the database
   fastify.post('/pools', poolsController.CreateNewPool)
 
