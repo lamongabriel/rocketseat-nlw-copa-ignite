@@ -20,12 +20,30 @@ export async function CreateNewPool (request: FastifyRequest, reply: FastifyRepl
     const generateID = new ShortUniqueID({ length: 6 })
     const code = String(generateID()).toUpperCase()
 
-    await prisma.pool.create({
-      data: {
-        title,
-        code
-      }
-    })
+    try {
+      request.jwtVerify()
+
+      await prisma.pool.create({
+        data: {
+          title,
+          code,
+          ownerId: request.user.sub,
+
+          participants: {
+            create: {
+              userId: request.user.sub
+            }
+          }
+        }
+      })
+    } catch {
+      await prisma.pool.create({
+        data: {
+          title,
+          code
+        }
+      })
+    }
 
     return await reply.status(201).send({ pool: code })
   } catch (err) {
