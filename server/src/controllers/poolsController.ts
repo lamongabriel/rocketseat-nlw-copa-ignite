@@ -1,12 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../lib/prisma'
 
 import { z } from 'zod'
 import ShortUniqueID from 'short-unique-id'
-
-const prisma = new PrismaClient({
-  log: ['query']
-})
 
 export async function CountEveryPool (request: FastifyRequest, reply: FastifyReply) {
   const count = await prisma.pool.count({})
