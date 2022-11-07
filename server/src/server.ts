@@ -25,7 +25,7 @@ async function startup (): Promise<void> {
     dir: path.join(__dirname, 'routes')
   })
 
-  await server.listen({ port: 3333 /* host: '0.0.0.0' */ })
+  await server.listen({ port: 3333, host: '0.0.0.0' })
 }
 
 startup()
