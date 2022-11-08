@@ -1,6 +1,6 @@
 # World Cup SweepStake APP ⚽⚽
 
-![GitHub repo size](https://img.shields.io/github/repo-size/lamongabriel/rocketseat-nlw-copa-ignites?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/lamongabriel/rocketseat-nlw-copa-ignite?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/lamongabriel/rocketseat-nlw-copa-ignite?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/lamongabriel/rocketseat-nlw-copa-ignite?style=for-the-badge)
 
