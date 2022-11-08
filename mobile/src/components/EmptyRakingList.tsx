@@ -3,8 +3,7 @@ import { Text } from 'native-base'
 export function EmptyRakingList () {
   return (
     <Text color="white" fontSize="sm" textAlign="center">
-      O ranking desse bolão ainda não foi {'\n'}
-      formado, aguarde os resultados.
+      The ranking of this pools hasn't been updated yet. {'\n'} Please wait for the results.
     </Text>
   )
 }

@@ -13,7 +13,7 @@ export function Routes () {
   return (
     <Box flex={1} bg='gray.900'>
       <NavigationContainer>
-        {user.name ? <SignIn /> : <AppRoutes />}
+        {user.name ? <AppRoutes /> : <SignIn /> }
       </NavigationContainer>
     </Box>
   )

@@ -13,7 +13,7 @@ export async function CountEveryPool (request: FastifyRequest, reply: FastifyRep
 export async function CreateNewPool (request: FastifyRequest, reply: FastifyReply) {
   try {
     const createPoolBody = z.object({
-      title: z.string().trim().min(5)
+      title: z.string().trim()
     })
 
     const { title } = createPoolBody.parse(request.body)
@@ -60,6 +60,8 @@ export async function JoinNewPool (request: FastifyRequest, reply: FastifyReply)
 
   const { code } = joinPoolBody.parse(request.body)
 
+  console.log('------------------->>>>' + code)
+
   const poolToJoin = await prisma.pool.findUnique({
     where: {
       code
@@ -75,7 +77,7 @@ export async function JoinNewPool (request: FastifyRequest, reply: FastifyReply)
 
   if (!poolToJoin) {
     return await reply.status(400).send({
-      message: 'Pool not found'
+      message: 'Pool not found.'
     })
   }
 
@@ -96,7 +98,7 @@ export async function JoinNewPool (request: FastifyRequest, reply: FastifyReply)
     })
   }
 
-  prisma.participant.create({
+  await prisma.participant.create({
     data: {
       poolId: poolToJoin.id,
       userId: request.user.sub
