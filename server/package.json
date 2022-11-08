@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "rocketseat-nlw-copa-ignite-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "A fastify server to handle data using fastify and prisma.",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/server.ts"
